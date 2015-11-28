@@ -7,6 +7,7 @@
 /*global clearInterval */
 /*global setTimeout */
 /*global requestAnimationFrame */
+/*global document */
 
 class EqualizerJeremy1Directive {
 	
@@ -35,6 +36,28 @@ class EqualizerJeremy1Controller {
 		console.log('EqualizerJeremy1Controller called');
 		
 		if (selectedVisual.name === 'equalizer-jeremy1') {
+		
+			let fullscreenButton = angular.element('#fullscreen-button')[0];
+			
+			fullscreenButton.onclick = this.fullScreen.bind(this);
+			
+			document.onwebkitfullscreenchange = (function() {
+				
+				if (document.webkitFullscreenElement === null) {
+					this.canvas.style.width = '800px';
+					this.canvas.style.height = '600px';
+				}
+				
+			}).bind(this);
+			
+			document.onmozfullscreenchange = (function() {
+				
+				if (document.mozFullscreenElement === null) {
+					this.canvas.style.width = '800px';
+					this.canvas.style.height = '600px';
+				}
+				
+			}).bind(this);
 		
 			if (this.audioSource) {
 				this.audioSource.disconnect();
@@ -172,6 +195,20 @@ class EqualizerJeremy1Controller {
 			this.canvasContext.fillRect(i, this.canvasHeight, 1, -data);
 //			this.canvasContext.fillRect(i, this.canvasHeight-data, 1, 10);
 		}
+	}
+	
+	fullScreen() {
+
+		if (this.canvas.webkitRequestFullScreen) {
+			this.canvas.webkitRequestFullScreen();
+		} else if (this.canvas.mozRequestFullScreen) {
+			this.canvas.mozRequestFullScreen();
+		}
+		
+		console.log('style' + this.canvas.style);
+		
+		this.canvas.style.width = window.innerWidth + 'px';
+		this.canvas.style.height = '100%';
 	}
 }
 
