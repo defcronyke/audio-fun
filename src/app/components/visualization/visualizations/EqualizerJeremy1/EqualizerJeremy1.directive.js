@@ -147,9 +147,11 @@ class EqualizerJeremy1Controller {
 
 			this.canvasContext.fillStyle = 'rgba('+rand_r2+', 0, '+rand_b2+', 1.0)';
 			this.canvasContext.fillRect(i, 0, 1, data);
+//			this.canvasContext.fillRect(i, data, 1, 10);
 			
 			this.canvasContext.fillStyle = 'rgba(0, '+rand_g2+', '+rand_b2+', 1.0)';
 			this.canvasContext.fillRect(i, this.canvasHeight, 1, -data);
+//			this.canvasContext.fillRect(i, this.canvasHeight-data, 1, 10);
 		}
 	}
 }
