@@ -24,29 +24,30 @@ class EqualizerJeremy1Controller {
 	constructor() {
 		'ngInject';
 		
-		console.log('EqualizerJeremy1Controller called');
+		if (selectedVisual.name === 'equalizer-jeremy1') {
 		
-		this.audioPlayer = angular.element('#audio-player')[0];
-		
-		let AudioContext = window.AudioContext || window.webkitAudioContext;
-		this.audioContext = new AudioContext();
-		
-		this.audioSource = this.audioContext.createMediaElementSource(this.audioPlayer);
-		
-		this.audioAnalyser = this.audioContext.createAnalyser();
-		this.audioAnalyser.fftSize = 2048;
-		this.bufferLength = this.audioAnalyser.frequencyBinCount;
-
-//		this.dataArray = new Uint8Array(this.bufferLength);
-		this.dataFloatArray = new Float32Array(this.bufferLength);
-		
-//		this.audioAnalyser.getByteTimeDomainData(this.dataArray);
-		this.audioAnalyser.getFloatTimeDomainData(this.dataFloatArray);
-		
-		this.audioSource.connect(this.audioAnalyser);
-		this.audioAnalyser.connect(this.audioContext.destination);
-		
-		this.processAudio();
+			this.audioPlayer = angular.element('#audio-player')[0];
+			
+			let AudioContext = window.AudioContext || window.webkitAudioContext;
+			this.audioContext = new AudioContext();
+			
+			this.audioSource = this.audioContext.createMediaElementSource(this.audioPlayer);
+			
+			this.audioAnalyser = this.audioContext.createAnalyser();
+			this.audioAnalyser.fftSize = 2048;
+			this.bufferLength = this.audioAnalyser.frequencyBinCount;
+	
+	//		this.dataArray = new Uint8Array(this.bufferLength);
+			this.dataFloatArray = new Float32Array(this.bufferLength);
+			
+	//		this.audioAnalyser.getByteTimeDomainData(this.dataArray);
+			this.audioAnalyser.getFloatTimeDomainData(this.dataFloatArray);
+			
+			this.audioSource.connect(this.audioAnalyser);
+			this.audioAnalyser.connect(this.audioContext.destination);
+			
+			this.processAudio();
+		}
 	}
 	
 	processAudio() {
@@ -59,7 +60,7 @@ class EqualizerJeremy1Controller {
 					
 					clearInterval(this.checkSelectedVisual);
 					
-					this.processAudio();
+					this.constructor();
 				}
 				
 			}).bind(this), 1000);
