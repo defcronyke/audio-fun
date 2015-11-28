@@ -1,4 +1,12 @@
 /*global console */
+/*global selectedVisual:true */
+/*global URL */
+/*global window */
+/*global Uint8Array */
+/*global setInterval */
+/*global clearInterval */
+/*global setTimeout */
+/*global requestAnimationFrame */
 
 class EqualizerJeremy1Directive {
 	
@@ -24,63 +32,59 @@ class EqualizerJeremy1Controller {
 	constructor() {
 		'ngInject';
 		
-//		try {
+		console.log('EqualizerJeremy1Controller called');
 		
-			if (selectedVisual.name === 'equalizer-jeremy1') {
-			
-				if (this.audioSource) {
-					this.audioSource.disconnect();
-				}
-			
-				this.canvasWidth = 1024;
-				this.canvasHeight = 768;
-			
-				this.audioPlayer = angular.element('#audio-player')[0];
-				this.audioPlayerFile = angular.element('#audio-player-file')[0];
-				
-				this.audioPlayerFile.onchange = (function() {
-					this.audioPlayer.src = URL.createObjectURL(this.audioPlayerFile.files[0]);
-				}).bind(this);
-				
-				let AudioContext = window.AudioContext || window.webkitAudioContext;
-				
-				if (!this.audioContext) {
-					this.audioContext = new AudioContext();
-				}
-				
-				if (!this.audioSource) {
-					this.audioSource = this.audioContext.createMediaElementSource(this.audioPlayer);
-				}
-				
-				this.audioAnalyser = this.audioContext.createAnalyser();
-				this.audioAnalyser.fftSize = 2048;
-				this.bufferLength = this.audioAnalyser.frequencyBinCount;
+		if (selectedVisual.name === 'equalizer-jeremy1') {
 		
-				this.dataArray = new Uint8Array(this.bufferLength);
-	//			this.dataFloatArray = new Float32Array(this.bufferLength);
-				
-				this.audioAnalyser.getByteTimeDomainData(this.dataArray);
-	//			this.audioAnalyser.getFloatTimeDomainData(this.dataFloatArray);
-				
-				this.audioSource.connect(this.audioAnalyser);
-				
-				this.audioAnalyser.connect(this.audioContext.destination);
-				
-				
-				
-				this.canvas = angular.element('#equalizer-jeremy1-canvas1')[0];
-				this.canvasContext = this.canvas.getContext('2d');
-				this.canvasContext.fillStyle = 'rgba(0, 0, 0, 1.0)';
-				this.canvasContext.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
-				
-				
-				
-				this.processAudio();
+			if (this.audioSource) {
+				this.audioSource.disconnect();
 			}
 		
-//		} catch(e) {
+			this.canvasWidth = 1024;
+			this.canvasHeight = 768;
+		
+			this.audioPlayer = angular.element('#audio-player')[0];
+			this.audioPlayerFile = angular.element('#audio-player-file')[0];
 			
-//		}
+			this.audioPlayerFile.onchange = (function() {
+				this.audioPlayer.src = URL.createObjectURL(this.audioPlayerFile.files[0]);
+			}).bind(this);
+			
+			let AudioContext = window.AudioContext || window.webkitAudioContext;
+			
+			if (!this.audioContext) {
+				this.audioContext = new AudioContext();
+			}
+			
+			if (!this.audioSource) {
+				this.audioSource = this.audioContext.createMediaElementSource(this.audioPlayer);
+			}
+			
+			this.audioAnalyser = this.audioContext.createAnalyser();
+			this.audioAnalyser.fftSize = 2048;
+			this.bufferLength = this.audioAnalyser.frequencyBinCount;
+	
+			this.dataArray = new Uint8Array(this.bufferLength);
+//			this.dataFloatArray = new Float32Array(this.bufferLength);
+			
+			this.audioAnalyser.getByteTimeDomainData(this.dataArray);
+//			this.audioAnalyser.getFloatTimeDomainData(this.dataFloatArray);
+			
+			this.audioSource.connect(this.audioAnalyser);
+			
+			this.audioAnalyser.connect(this.audioContext.destination);
+			
+			
+			
+			this.canvas = angular.element('#equalizer-jeremy1-canvas1')[0];
+			this.canvasContext = this.canvas.getContext('2d');
+			this.canvasContext.fillStyle = 'rgba(0, 0, 0, 1.0)';
+			this.canvasContext.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+			
+			
+			
+			this.processAudio();
+		}
 	}
 	
 	processAudio() {
@@ -106,11 +110,11 @@ class EqualizerJeremy1Controller {
 			
 			this.processAudioHandle = requestAnimationFrame(this.processAudio.bind(this));
 			
-		}).bind(this), 1000 / fps)
+		}).bind(this), 1000 / fps);
 		
 		
-		this.audioAnalyser.getByteTimeDomainData(this.dataArray)
-//		this.audioAnalyser.getFloatTimeDomainData(this.dataFloatArray)
+		this.audioAnalyser.getByteTimeDomainData(this.dataArray);
+//		this.audioAnalyser.getFloatTimeDomainData(this.dataFloatArray);
 		
 		let skip = true;
 		

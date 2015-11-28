@@ -1,3 +1,6 @@
+/*global selectedVisual:true */
+/*global console */
+
 class VisualizationDirective {
   constructor () {
     'ngInject';
