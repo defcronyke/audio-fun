@@ -29,7 +29,7 @@ class VisualizationController {
 			}
 		];
 		
-		this.selectedVisual = this.visuals[0];
+		this.selectedVisual = this.visuals[1];
 	}
 	
 	setSelectedVisual(visual) {
