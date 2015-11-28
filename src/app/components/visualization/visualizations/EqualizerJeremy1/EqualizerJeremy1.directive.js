@@ -85,7 +85,14 @@ class EqualizerJeremy1Controller {
 			return;
 		}
 		
-		this.processAudioHandle = requestAnimationFrame(this.processAudio.bind(this));
+		let fps = 60;
+		
+		setTimeout((function() {
+			
+			this.processAudioHandle = requestAnimationFrame(this.processAudio.bind(this));
+			
+		}).bind(this), 1000 / fps)
+		
 		
 		this.audioAnalyser.getByteTimeDomainData(this.dataArray)
 //		this.audioAnalyser.getFloatTimeDomainData(this.dataFloatArray)
