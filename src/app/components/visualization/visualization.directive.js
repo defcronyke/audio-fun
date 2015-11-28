@@ -29,13 +29,16 @@ class VisualizationController {
 			}
 		];
 		
-		this.selectedVisual = this.visuals[1];
+		this.selectedVisual = this.visuals[1];	// TODO: Use this to set the default visual.
+		selectedVisual = this.selectedVisual;
 	}
 	
 	setSelectedVisual(visual) {
 		
-		this.selectedVisual = this.selectedVisual ? delete this.selectedVisual : this.selectedVisual;
 		this.selectedVisual = visual;
+		selectedVisual = visual;
+		
+		console.log(selectedVisual);
 	}
 }
 
