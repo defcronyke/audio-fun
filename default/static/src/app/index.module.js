@@ -13,7 +13,7 @@ import EqualizerDaphne1 from '../app/components/visualization/visualizations/Equ
 import EqualizerJeremy1 from '../app/components/visualization/visualizations/EqualizerJeremy1/EqualizerJeremy1.directive';
 import VisualizationDirective from '../app/components/visualization/visualization.directive';
 
-angular.module('audioFun', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.router'])
+angular.module('audioFun', ['ngAnimate', 'ngCookies', 'ngSanitize', 'ngResource', 'ui.router'])
   .constant('malarkey', malarkey)
   .constant('toastr', toastr)
   .constant('moment', moment)
