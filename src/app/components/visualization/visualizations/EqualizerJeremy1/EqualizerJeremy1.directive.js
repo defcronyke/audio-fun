@@ -26,6 +26,10 @@ class EqualizerJeremy1Controller {
 		
 		if (selectedVisual.name === 'equalizer-jeremy1') {
 		
+			if (this.audioSource) {
+				this.audioSource.disconnect();
+			}
+		
 			this.canvasWidth = 1024;
 			this.canvasHeight = 768;
 		
@@ -47,6 +51,7 @@ class EqualizerJeremy1Controller {
 //			this.audioAnalyser.getFloatTimeDomainData(this.dataFloatArray);
 			
 			this.audioSource.connect(this.audioAnalyser);
+			
 			this.audioAnalyser.connect(this.audioContext.destination);
 			
 			
