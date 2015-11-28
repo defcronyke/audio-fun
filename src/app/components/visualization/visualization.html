@@ -1,0 +1,22 @@
+<div class="visualization-area">
+	
+	<div id="select-visual1">
+	
+		<div class="visual" ng-repeat="visual in vm.visuals track by $index">
+			
+			<span ng-click="vm.setSelectedVisual(visual)" style="cursor: pointer;">{{visual.name}}</span>
+		
+		</div>
+	
+	</div>
+	
+	<div id="visuals1">
+	
+		<h3 ng-bind="vm.selectedVisual.name"></h3>
+		
+		<equalizer-daphne1 ng-hide="vm.selectedVisual.name !== 'equalizer-daphne1'"></equalizer-daphne1>
+		<equalizer-jeremy1 ng-hide="vm.selectedVisual.name !== 'equalizer-jeremy1'"></equalizer-jeremy1>
+	
+	</div>
+	
+</div>
