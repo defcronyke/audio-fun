@@ -24,47 +24,63 @@ class EqualizerJeremy1Controller {
 	constructor() {
 		'ngInject';
 		
-		if (selectedVisual.name === 'equalizer-jeremy1') {
+//		try {
 		
-			if (this.audioSource) {
-				this.audioSource.disconnect();
+			if (selectedVisual.name === 'equalizer-jeremy1') {
+			
+				if (this.audioSource) {
+					this.audioSource.disconnect();
+				}
+			
+				this.canvasWidth = 1024;
+				this.canvasHeight = 768;
+			
+				this.audioPlayer = angular.element('#audio-player')[0];
+				this.audioPlayerFile = angular.element('#audio-player-file')[0];
+				
+				this.audioPlayerFile.onchange = (function() {
+					this.audioPlayer.src = URL.createObjectURL(this.audioPlayerFile.files[0]);
+				}).bind(this);
+				
+				let AudioContext = window.AudioContext || window.webkitAudioContext;
+				
+				if (!this.audioContext) {
+					this.audioContext = new AudioContext();
+				}
+				
+				if (!this.audioSource) {
+					this.audioSource = this.audioContext.createMediaElementSource(this.audioPlayer);
+				}
+				
+				this.audioAnalyser = this.audioContext.createAnalyser();
+				this.audioAnalyser.fftSize = 2048;
+				this.bufferLength = this.audioAnalyser.frequencyBinCount;
+		
+				this.dataArray = new Uint8Array(this.bufferLength);
+	//			this.dataFloatArray = new Float32Array(this.bufferLength);
+				
+				this.audioAnalyser.getByteTimeDomainData(this.dataArray);
+	//			this.audioAnalyser.getFloatTimeDomainData(this.dataFloatArray);
+				
+				this.audioSource.connect(this.audioAnalyser);
+				
+				this.audioAnalyser.connect(this.audioContext.destination);
+				
+				
+				
+				this.canvas = angular.element('#equalizer-jeremy1-canvas1')[0];
+				this.canvasContext = this.canvas.getContext('2d');
+				this.canvasContext.fillStyle = 'rgba(0, 0, 0, 1.0)';
+				this.canvasContext.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+				
+				
+				
+				this.processAudio();
 			}
 		
-			this.canvasWidth = 1024;
-			this.canvasHeight = 768;
-		
-			this.audioPlayer = angular.element('#audio-player')[0];
+//		} catch(e) {
 			
-			let AudioContext = window.AudioContext || window.webkitAudioContext;
-			this.audioContext = new AudioContext();
-			
-			this.audioSource = this.audioContext.createMediaElementSource(this.audioPlayer);
-			
-			this.audioAnalyser = this.audioContext.createAnalyser();
-			this.audioAnalyser.fftSize = 2048;
-			this.bufferLength = this.audioAnalyser.frequencyBinCount;
-	
-			this.dataArray = new Uint8Array(this.bufferLength);
-//			this.dataFloatArray = new Float32Array(this.bufferLength);
-			
-			this.audioAnalyser.getByteTimeDomainData(this.dataArray);
-//			this.audioAnalyser.getFloatTimeDomainData(this.dataFloatArray);
-			
-			this.audioSource.connect(this.audioAnalyser);
-			
-			this.audioAnalyser.connect(this.audioContext.destination);
-			
-			
-			
-			this.canvas = angular.element('#equalizer-jeremy1-canvas1')[0];
-			this.canvasContext = this.canvas.getContext('2d');
-			this.canvasContext.fillStyle = 'rgba(0, 0, 0, 1.0)';
-			this.canvasContext.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
-			
-			
-			
-			this.processAudio();
-		}
+//		}
 	}
 	
 	processAudio() {
@@ -86,7 +102,6 @@ class EqualizerJeremy1Controller {
 		}
 		
 		let fps = 60;
-		
 		setTimeout((function() {
 			
 			this.processAudioHandle = requestAnimationFrame(this.processAudio.bind(this));
