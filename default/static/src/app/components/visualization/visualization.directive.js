@@ -28,6 +28,10 @@ class VisualizationController {
 			},
 			
 			{
+				'name': 'equalizer-daphne2'
+			},
+			
+			{
 				'name': 'equalizer-jeremy1',
 			}
 		];

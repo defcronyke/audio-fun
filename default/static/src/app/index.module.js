@@ -10,10 +10,11 @@ import WebDevTecService from '../app/components/webDevTec/webDevTec.service';
 import NavbarDirective from '../app/components/navbar/navbar.directive';
 import MalarkeyDirective from '../app/components/malarkey/malarkey.directive';
 import EqualizerDaphne1 from '../app/components/visualization/visualizations/EqualizerDaphne1/EqualizerDaphne1.directive';
+import EqualizerDaphne2 from '../app/components/visualization/visualizations/EqualizerDaphne2/EqualizerDaphne2.directive';
 import EqualizerJeremy1 from '../app/components/visualization/visualizations/EqualizerJeremy1/EqualizerJeremy1.directive';
 import VisualizationDirective from '../app/components/visualization/visualization.directive';
 
-angular.module('audioFun', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.router'])
+angular.module('audioFun', ['ngAnimate', 'ngCookies', 'ngSanitize', 'ngResource', 'ui.router'])
   .constant('malarkey', malarkey)
   .constant('toastr', toastr)
   .constant('moment', moment)
@@ -28,5 +29,6 @@ angular.module('audioFun', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', '
   .directive('acmeNavbar', () => new NavbarDirective())
   .directive('acmeMalarkey', () => new MalarkeyDirective(malarkey))
   .directive('equalizerDaphne1', () => new EqualizerDaphne1('equalizer-daphne1'))
+  .directive('equalizerDaphne2', () => new EqualizerDaphne2('equalizer-daphne2'))
   .directive('equalizerJeremy1', () => new EqualizerJeremy1('equalizer-jeremy1'))
   .directive('visualization', () => new VisualizationDirective());

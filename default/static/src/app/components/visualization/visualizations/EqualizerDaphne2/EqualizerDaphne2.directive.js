@@ -9,7 +9,7 @@
 /*global requestAnimationFrame */
 /*global document */
 
-class EqualizerDaphne1Directive {
+class EqualizerDaphne2Directive {
 	
 	constructor(name) {
 		'ngInject';
@@ -18,9 +18,9 @@ class EqualizerDaphne1Directive {
 		
 		let directive = {
 			restrict: 'E',
-			templateUrl: 'app/components/visualization/visualizations/EqualizerDaphne1/EqualizerDaphne1.html',
+			templateUrl: 'app/components/visualization/visualizations/EqualizerDaphne2/EqualizerDaphne2.html',
 			scope: {},
-			controller: EqualizerDaphne1Controller,
+			controller: EqualizerDaphne2Controller,
 			controllerAs: 'vm',
 			bindToController: true
 		};
@@ -29,13 +29,13 @@ class EqualizerDaphne1Directive {
 	}
 }
 
-class EqualizerDaphne1Controller {
+class EqualizerDaphne2Controller {
 	constructor() {
 		'ngInject';
 		
-		console.log('EqualizerDaphne1Controller called');
+		console.log('EqualizerDaphne2Controller called');
 		
-		if (selectedVisual.name === 'equalizer-daphne1') {
+		if (selectedVisual.name === 'equalizer-daphne2') {
 		
 			let fullscreenButton = angular.element('#fullscreen-button')[0];
 			
@@ -99,7 +99,7 @@ class EqualizerDaphne1Controller {
 			
 			
 			
-			this.canvas = angular.element('#equalizer-daphne1-canvas1')[0];
+			this.canvas = angular.element('#equalizer-daphne2-canvas1')[0];
 			this.canvasContext = this.canvas.getContext('2d');
 			this.canvasContext.fillStyle = 'rgba(0, 0, 0, 1.0)';
 			this.canvasContext.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
@@ -112,7 +112,7 @@ class EqualizerDaphne1Controller {
 			
 			this.checkSelectedVisual = setInterval((function(){
 				
-				if (selectedVisual.name === 'equalizer-daphne1') {
+				if (selectedVisual.name === 'equalizer-daphne2') {
 					
 					clearInterval(this.checkSelectedVisual);
 					
@@ -125,11 +125,11 @@ class EqualizerDaphne1Controller {
 	
 	processAudio() {
 		
-		if (selectedVisual.name !== 'equalizer-daphne1') {
+		if (selectedVisual.name !== 'equalizer-daphne2') {
 			
 			this.checkSelectedVisual2 = setInterval((function(){
 				
-				if (selectedVisual.name === 'equalizer-daphne1') {
+				if (selectedVisual.name === 'equalizer-daphne2') {
 					
 					clearInterval(this.checkSelectedVisual2);
 					
@@ -180,51 +180,25 @@ class EqualizerDaphne1Controller {
 	
 	draw(dataArray) {
 		this.canvasContext.clearRect(0,0,this.canvasWidth,this.canvasHeight);
-		
-		//let fillColors = ['red','orange','yellow','green','blue','purple'];
-		
-		//let rand_y = Math.floor(Math.random() * this.canvasHeight);
-		
+		let total = 0;
 
 
 		for (let i = 0; i < dataArray.length; i++) {		
 			let data = dataArray[i];
-			
-			
-			if (i%40 !== 0) {
-				continue;
-			}
-			
-			let y1 = data %(this.canvasHeight);
-			let y2 = (data + 128) %(this.canvasHeight);
-			let y3 = (data + 256) %this.canvasHeight;
-			
-			let r1 = 0;
-			let b1 = Math.floor((i/dataArray.length) * 255);
-			let g1 = Math.floor(255-((i/dataArray.length) * 255));
-			
-			let r2 = Math.floor((i/dataArray.length) * 255);
-			let b2 = Math.floor(255-((i/dataArray.length) * 255));
-			let g2 = 0;
-			
-			let r3 = Math.floor(255-((i/dataArray.length) * 255));
-			let b3 = 0;
-			let g3 = Math.floor((i/dataArray.length) * 255);
-			
-			this.canvasContext.fillStyle = "rgba(" + r1 + "," + g1 + "," + b1 + "," + (1.0 - (data/255)) + ")";
-			this.canvasContext.beginPath();
-			this.canvasContext.arc((i+700)%1025, y1, (data/256)* 100, 0, 2 * Math.PI, false);
-			this.canvasContext.fill();
-			
-			this.canvasContext.fillStyle = "rgba(" + r2 + "," + g2 + "," + b2 + "," + (1.0 - (data/255)) + ")";
-			this.canvasContext.beginPath();
-			this.canvasContext.arc((i+300)%1025, y2+50, (data/256)* 100, 0, 2 * Math.PI, false);
-			this.canvasContext.fill();
-			
-			this.canvasContext.fillStyle = "rgba(" + r3 + "," + g3 + "," + b3 + "," + (1.0 - (data/255)) + ")";
-			this.canvasContext.beginPath();
-			this.canvasContext.arc(i, y3+100, (data/256)* 100, 0, 2 * Math.PI, false);
-			this.canvasContext.fill();
+			total += data;
+		}
+		//console.log(turtle);
+		let pen = turtle.penFor(this.canvas);
+		
+		let sides = total/2048;
+		let angle = 365/sides;
+		let startX = this.canvasWidth/2;
+		let startY = this.canvasHeight/2;
+		pen.moveTo(startX + sides, startY + sides);
+		pen.penDown();
+		for (let i = 0; i < sides; i++) {
+			pen.forward(100);
+			pen.left(angle);
 		}
 		
 	}
@@ -244,4 +218,4 @@ class EqualizerDaphne1Controller {
 	}
 }
 
-export default EqualizerDaphne1Directive;
+export default EqualizerDaphne2Directive;
