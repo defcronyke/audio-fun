@@ -35,6 +35,22 @@ class EqualizerJeremy2Controller {
 		
 		console.log('EqualizerJeremy2Controller called');
 		
+		if (selectedVisual.name !== 'equalizer-jeremy2') {
+			
+			this.checkSelectedVisual = setInterval((function(){
+				
+				if (selectedVisual.name === 'equalizer-jeremy2') {
+					
+					clearInterval(this.checkSelectedVisual);
+					
+					this.constructor();
+				}
+				
+			}).bind(this), 1000);
+			
+			return;
+		}
+		
 		if (selectedVisual.name === 'equalizer-jeremy2') {
 		
 			let fullscreenButton = angular.element('#equalizer-jeremy2-fullscreen-button')[0];
@@ -112,22 +128,6 @@ class EqualizerJeremy2Controller {
 	}
 	
 	processAudio() {
-		
-		if (selectedVisual.name !== 'equalizer-jeremy2') {
-			
-			this.checkSelectedVisual = setInterval((function(){
-				
-				if (selectedVisual.name === 'equalizer-jeremy2') {
-					
-					clearInterval(this.checkSelectedVisual);
-					
-					this.constructor();
-				}
-				
-			}).bind(this), 1000);
-			
-			return;
-		}
 		
 		let fps = 60;
 		setTimeout((function() {
