@@ -9,7 +9,7 @@
 /*global requestAnimationFrame */
 /*global document */
 
-class EqualizerJeremy1Directive {
+class EqualizerJeremy2Directive {
 	
 	constructor(name) {
 		'ngInject';
@@ -18,9 +18,9 @@ class EqualizerJeremy1Directive {
 		
 		let directive = {
 			restrict: 'E',
-			templateUrl: 'app/components/visualization/visualizations/EqualizerJeremy1/EqualizerJeremy1.html',
+			templateUrl: 'app/components/visualization/visualizations/EqualizerJeremy2/EqualizerJeremy2.html',
 			scope: {},
-			controller: EqualizerJeremy1Controller,
+			controller: EqualizerJeremy2Controller,
 			controllerAs: 'vm',
 			bindToController: true
 		};
@@ -29,15 +29,15 @@ class EqualizerJeremy1Directive {
 	}
 }
 
-class EqualizerJeremy1Controller {
+class EqualizerJeremy2Controller {
 	constructor() {
 		'ngInject';
 		
-		console.log('EqualizerJeremy1Controller called');
+		console.log('EqualizerJeremy2Controller called');
 		
-		if (selectedVisual.name === 'equalizer-jeremy1') {
+		if (selectedVisual.name === 'equalizer-jeremy2') {
 		
-			let fullscreenButton = angular.element('#fullscreen-button')[0];
+			let fullscreenButton = angular.element('#equalizer-jeremy2-fullscreen-button')[0];
 			
 			fullscreenButton.onclick = this.fullScreen.bind(this);
 			
@@ -99,24 +99,25 @@ class EqualizerJeremy1Controller {
 			
 			
 			
-			this.canvas = angular.element('#equalizer-jeremy1-canvas1')[0];
+			this.canvas = angular.element('#equalizer-jeremy2-canvas1')[0];
 			this.canvasContext = this.canvas.getContext('2d');
 			this.canvasContext.fillStyle = 'rgba(0, 0, 0, 1.0)';
 			this.canvasContext.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
 			
 			
-			
+			//this.n = 0;
+			this.backgroundFillStyle = 'rgba(0, 0, 0, 1.0)';
 			this.processAudio();
 		}
 	}
 	
 	processAudio() {
 		
-		if (selectedVisual.name !== 'equalizer-jeremy1') {
+		if (selectedVisual.name !== 'equalizer-jeremy2') {
 			
 			this.checkSelectedVisual = setInterval((function(){
 				
-				if (selectedVisual.name === 'equalizer-jeremy1') {
+				if (selectedVisual.name === 'equalizer-jeremy2') {
 					
 					clearInterval(this.checkSelectedVisual);
 					
@@ -167,33 +168,46 @@ class EqualizerJeremy1Controller {
 	
 	draw(dataArray) {
 
-//		this.canvasContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+		//this.canvasContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 
-		let rand_r = Math.floor(Math.random() * 255);
-		let rand_g = Math.floor(Math.random() * 255);
-		let rand_b = Math.floor(Math.random() * 255);
+		//console.log(this.n);
 
-		//this.canvasContext.fillStyle = 'rgba(0, 0, 0, 1.0)';
-		
-		this.canvasContext.fillStyle = 'rgba('+dataArray[rand_r]+', '+dataArray[rand_g]+', '+dataArray[rand_b]+', 1.0)';
+		this.canvasContext.fillStyle = this.backgroundFillStyle;
 		this.canvasContext.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+		
 
 		for (let i = 0; i < dataArray.length; i++) {
 			
 			let data = dataArray[i];
 
-			let rand_r2 = Math.floor(Math.random() * 255);
-			let rand_g2 = Math.floor(Math.random() * 255);
-			let rand_b2 = Math.floor(Math.random() * 255);
+			let rand_r = Math.floor(Math.random() * 255);
+			let rand_g = Math.floor(Math.random() * 255);
+			let rand_b = Math.floor(Math.random() * 255);
 
-			this.canvasContext.fillStyle = 'rgba('+rand_r2+', 0, '+rand_b2+', 1.0)';
-			this.canvasContext.fillRect(i, 0, 1, data);
-//			this.canvasContext.fillRect(i, data, 1, 10);
+			this.canvasContext.fillStyle = 'rgba('+rand_r+', 0, '+rand_b+', 1.0)';
+//			this.canvasContext.fillRect(i, 0, 1, data);
+			this.canvasContext.fillRect(i, data, 1, 15);
 			
-			this.canvasContext.fillStyle = 'rgba(0, '+rand_g2+', '+rand_b2+', 1.0)';
-			this.canvasContext.fillRect(i, this.canvasHeight, 1, -data);
-//			this.canvasContext.fillRect(i, this.canvasHeight-data, 1, 10);
+			this.canvasContext.fillStyle = 'rgba(0, '+rand_g+', '+rand_b+', 1.0)';
+//			this.canvasContext.fillRect(i, this.canvasHeight, 1, -data);
+			this.canvasContext.fillRect(i, this.canvasHeight - data, 1, 15);
+			
+			if (data <= 8) {
+			
+				console.log('changing background colour');
+				
+				let rand_r = Math.floor(Math.random() * 255);
+				let rand_g = Math.floor(Math.random() * 255);
+				let rand_b = Math.floor(Math.random() * 255);
+		
+				//this.canvasContext.fillStyle = 'rgba(0, 0, 0, 1.0)';
+				
+				this.canvasContext.fillStyle = 'rgba('+dataArray[rand_r]+', '+dataArray[rand_g]+', '+dataArray[rand_b]+', 1.0)';
+				this.backgroundFillStyle = this.canvasContext.fillStyle;
+			}
 		}
+		
+		//this.n = (this.n + 1) % this.bufferLength;
 	}
 	
 	fullScreen() {
@@ -211,4 +225,4 @@ class EqualizerJeremy1Controller {
 	}
 }
 
-export default EqualizerJeremy1Directive;
+export default EqualizerJeremy2Directive;

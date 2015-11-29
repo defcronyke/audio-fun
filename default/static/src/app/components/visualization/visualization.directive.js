@@ -33,10 +33,18 @@ class VisualizationController {
 			
 			{
 				'name': 'equalizer-jeremy1',
+			},
+			
+			{
+				'name': 'equalizer-jeremy2',
+			},
+			
+			{
+				'name': 'equalizer-jeremy3',
 			}
 		];
 		
-		this.selectedVisual = this.visuals[1];	// TODO: Use this to set the default visual.
+		this.selectedVisual = this.visuals[3];	// TODO: Use this to set the default visual.
 		selectedVisual = this.selectedVisual;
 	}
 	
