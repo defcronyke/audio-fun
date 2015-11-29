@@ -180,25 +180,42 @@ class EqualizerDaphne2Controller {
 	
 	draw(dataArray) {
 		this.canvasContext.clearRect(0,0,this.canvasWidth,this.canvasHeight);
-		let total = 0;
-
-
-		for (let i = 0; i < dataArray.length; i++) {		
+		
+		let lowest_freq = dataArray[0];
+		let highest_freq = dataArray[0];
+		
+		for (let i = 0; i < dataArray.length; i++) {
 			let data = dataArray[i];
-			total += data;
+			
+			if (data > highest_freq) {
+				highest_freq = data;
+			} else if (data < lowest_freq) {
+				lowest_freq = data;
+			}
 		}
-		//console.log(turtle);
+
+
 		let pen = turtle.penFor(this.canvas);
 		
-		let sides = total/2048;
-		let angle = 365/sides;
+		let sides = 3 + Math.floor((highest_freq - lowest_freq)/15);
+		let dist = 102 - sides;
+//		console.log(sides);
+		let angle = Math.floor(365/sides);
 		let startX = this.canvasWidth/2;
 		let startY = this.canvasHeight/2;
-		pen.moveTo(startX + sides, startY + sides);
+		pen.moveTo(startX - dist, startY - dist);
 		pen.penDown();
 		for (let i = 0; i < sides; i++) {
-			pen.forward(100);
-			pen.left(angle);
+			pen.forward(dist);
+			pen.turnRight(angle);
+		}
+		if (sides > 10) {
+			angle = Math.floor(365/(sides - 7));
+			let dist = 102 - (sides - 7);
+			for (let i = 0; i < (sides - 7); i++) {
+				pen.forward(dist);
+				pen.turnRight(angle);
+			}
 		}
 		
 	}
