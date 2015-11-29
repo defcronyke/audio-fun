@@ -35,11 +35,13 @@ class EqualizerJeremy1Controller {
 		
 		console.log('EqualizerJeremy1Controller called');
 		
-		if (selectedVisual.name !== 'equalizer-jeremy1') {
+		this.visualName = 'equalizer-jeremy1'
+		
+		if (selectedVisual.name !== this.visualName) {
 			
 			this.checkSelectedVisual = setInterval((function(){
 				
-				if (selectedVisual.name === 'equalizer-jeremy1') {
+				if (selectedVisual.name === this.visualName) {
 					
 					clearInterval(this.checkSelectedVisual);
 					
@@ -49,11 +51,33 @@ class EqualizerJeremy1Controller {
 			}).bind(this), 1000);
 			
 			return;
+		
+		} else {
+			
+			this.checkSelectedVisual2 = setInterval((function(){
+				
+				if (selectedVisual.name !== this.visualName) {
+					
+					clearInterval(this.checkSelectedVisual2);
+					
+					this.checkSelectedVisual3 = setInterval((function(){
+					
+						if (selectedVisual.name === this.visualName) {
+							
+							clearInterval(this.checkSelectedVisual3);
+							
+							this.constructor();
+						}
+						
+					}).bind(this), 1000);
+				}
+				
+			}).bind(this), 1000);
 		}
 		
-		if (selectedVisual.name === 'equalizer-jeremy1') {
+		if (selectedVisual.name === this.visualName) {
 		
-			let fullscreenButton = angular.element('#fullscreen-button')[0];
+			let fullscreenButton = angular.element('#'+this.visualName+'-fullscreen-button')[0];
 			
 			fullscreenButton.onclick = this.fullScreen.bind(this);
 			
@@ -93,42 +117,36 @@ class EqualizerJeremy1Controller {
 			}).bind(this);
 			
 			let AudioContext = window.AudioContext || window.webkitAudioContext;
+				
+			console.log('!! Creating new AudioContext()');
 			
-			if (!this.audioContext) {
-				
-				console.log('!! Creating new AudioContext()');
-				
-				delete this.audioContext;
-				
-				this.audioContext = new AudioContext();
-				//this.audioPlayer = angular.element('#audio-player')[0];
-				
-				let audioPlayerArea = angular.element('#audio-stream-file1');
-				
-				this.audioPlayer.parentNode.removeChild(this.audioPlayer);
-				
-				let newAudioPlayer = document.createElement('audio');
-				newAudioPlayer.src = 'assets/audio/03_Big-Dater_Big-Data.ogg';
-				newAudioPlayer.setAttribute('type', 'audio/ogg');
-				newAudioPlayer.setAttribute('controls', '');
-				newAudioPlayer.id = 'audio-player';
-				
-				audioPlayerArea.append(newAudioPlayer);
-				
-				this.audioPlayer = newAudioPlayer;
-			}
+			delete this.audioContext;
 			
-			if (!this.audioSource) {
-				
-				console.log('!! Creating new MediaElementSource');
-				
-				try {
-					this.audioSource = this.audioContext.createMediaElementSource(this.audioPlayer);
-				
-				} catch(e) {
-					console.log('Caught exception:');
-					console.log(e);
-				}
+			this.audioContext = new AudioContext();
+			//this.audioPlayer = angular.element('#audio-player')[0];
+			
+			let audioPlayerArea = angular.element('#audio-stream-file1');
+			
+			this.audioPlayer.parentNode.removeChild(this.audioPlayer);
+			
+			let newAudioPlayer = document.createElement('audio');
+			newAudioPlayer.src = 'assets/audio/03_Big-Dater_Big-Data.ogg';
+			newAudioPlayer.setAttribute('type', 'audio/ogg');
+			newAudioPlayer.setAttribute('controls', '');
+			newAudioPlayer.id = 'audio-player';
+			
+			audioPlayerArea.append(newAudioPlayer);
+			
+			this.audioPlayer = newAudioPlayer;
+
+			console.log('!! Creating new MediaElementSource');
+			
+			try {
+				this.audioSource = this.audioContext.createMediaElementSource(this.audioPlayer);
+			
+			} catch(e) {
+				console.log('Caught exception:');
+				console.log(e);
 			}
 			
 			this.audioAnalyser = this.audioContext.createAnalyser();
@@ -147,12 +165,10 @@ class EqualizerJeremy1Controller {
 			
 			
 			
-			this.canvas = angular.element('#equalizer-jeremy1-canvas1')[0];
+			this.canvas = angular.element('#'+this.visualName+'-canvas1')[0];
 			this.canvasContext = this.canvas.getContext('2d');
 			this.canvasContext.fillStyle = 'rgba(0, 0, 0, 1.0)';
 			this.canvasContext.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
-			
-			
 			
 			this.processAudio();
 		}

@@ -35,6 +35,22 @@ class EqualizerJeremy3Controller {
 		
 		console.log('EqualizerJeremy3Controller called');
 		
+		if (selectedVisual.name !== 'equalizer-jeremy3') {
+			
+			this.checkSelectedVisual = setInterval((function(){
+				
+				if (selectedVisual.name === 'equalizer-jeremy3') {
+					
+					clearInterval(this.checkSelectedVisual);
+					
+					this.constructor();
+				}
+				
+			}).bind(this), 1000);
+			
+			return;
+		}
+		
 		if (selectedVisual.name === 'equalizer-jeremy3') {
 		
 			let fullscreenButton = angular.element('#equalizer-jeremy3-fullscreen-button')[0];
@@ -76,11 +92,40 @@ class EqualizerJeremy3Controller {
 			let AudioContext = window.AudioContext || window.webkitAudioContext;
 			
 			if (!this.audioContext) {
+				
+				console.log('!! Creating new AudioContext()');
+				
+				delete this.audioContext;
+				
 				this.audioContext = new AudioContext();
+				//this.audioPlayer = angular.element('#audio-player')[0];
+				
+				let audioPlayerArea = angular.element('#audio-stream-file1');
+				
+				this.audioPlayer.parentNode.removeChild(this.audioPlayer);
+				
+				let newAudioPlayer = document.createElement('audio');
+				newAudioPlayer.src = 'assets/audio/03_Big-Dater_Big-Data.ogg';
+				newAudioPlayer.setAttribute('type', 'audio/ogg');
+				newAudioPlayer.setAttribute('controls', '');
+				newAudioPlayer.id = 'audio-player';
+				
+				audioPlayerArea.append(newAudioPlayer);
+				
+				this.audioPlayer = newAudioPlayer;
 			}
 			
 			if (!this.audioSource) {
-				this.audioSource = this.audioContext.createMediaElementSource(this.audioPlayer);
+				
+				console.log('!! Creating new MediaElementSource');
+				
+				try {
+					this.audioSource = this.audioContext.createMediaElementSource(this.audioPlayer);
+				
+				} catch(e) {
+					console.log('Caught exception:');
+					console.log(e);
+				}
 			}
 			
 			this.audioAnalyser = this.audioContext.createAnalyser();
@@ -112,22 +157,6 @@ class EqualizerJeremy3Controller {
 	}
 	
 	processAudio() {
-		
-		if (selectedVisual.name !== 'equalizer-jeremy3') {
-			
-			this.checkSelectedVisual = setInterval((function(){
-				
-				if (selectedVisual.name === 'equalizer-jeremy3') {
-					
-					clearInterval(this.checkSelectedVisual);
-					
-					this.constructor();
-				}
-				
-			}).bind(this), 1000);
-			
-			return;
-		}
 		
 		let fps = 60;
 		setTimeout((function() {

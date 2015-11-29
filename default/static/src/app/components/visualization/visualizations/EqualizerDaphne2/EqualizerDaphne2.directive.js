@@ -35,6 +35,22 @@ class EqualizerDaphne2Controller {
 		
 		console.log('EqualizerDaphne2Controller called');
 		
+		if (selectedVisual.name !== 'equalizer-daphne2') {
+			
+			this.checkSelectedVisual2 = setInterval((function(){
+				
+				if (selectedVisual.name === 'equalizer-daphne2') {
+					
+					clearInterval(this.checkSelectedVisual2);
+					
+					this.constructor();
+				}
+				
+			}).bind(this), 1000);
+			
+			return;
+		}
+		
 		if (selectedVisual.name === 'equalizer-daphne2') {
 		
 			let fullscreenButton = angular.element('#fullscreen-button')[0];
@@ -76,11 +92,40 @@ class EqualizerDaphne2Controller {
 			let AudioContext = window.AudioContext || window.webkitAudioContext;
 			
 			if (!this.audioContext) {
+				
+				console.log('!! Creating new AudioContext()');
+				
+				delete this.audioContext;
+				
 				this.audioContext = new AudioContext();
+				//this.audioPlayer = angular.element('#audio-player')[0];
+				
+				let audioPlayerArea = angular.element('#audio-stream-file1');
+				
+				this.audioPlayer.parentNode.removeChild(this.audioPlayer);
+				
+				let newAudioPlayer = document.createElement('audio');
+				newAudioPlayer.src = 'assets/audio/03_Big-Dater_Big-Data.ogg';
+				newAudioPlayer.setAttribute('type', 'audio/ogg');
+				newAudioPlayer.setAttribute('controls', '');
+				newAudioPlayer.id = 'audio-player';
+				
+				audioPlayerArea.append(newAudioPlayer);
+				
+				this.audioPlayer = newAudioPlayer;
 			}
 			
 			if (!this.audioSource) {
-				this.audioSource = this.audioContext.createMediaElementSource(this.audioPlayer);
+				
+				console.log('!! Creating new MediaElementSource');
+				
+				try {
+					this.audioSource = this.audioContext.createMediaElementSource(this.audioPlayer);
+				
+				} catch(e) {
+					console.log('Caught exception:');
+					console.log(e);
+				}
 			}
 			
 			this.audioAnalyser = this.audioContext.createAnalyser();
@@ -108,38 +153,10 @@ class EqualizerDaphne2Controller {
 			
 			this.processAudio();
 		
-		} else {
-			
-			this.checkSelectedVisual = setInterval((function(){
-				
-				if (selectedVisual.name === 'equalizer-daphne2') {
-					
-					clearInterval(this.checkSelectedVisual);
-					
-					this.constructor();
-				}
-				
-			}).bind(this), 1000);
 		}
 	}
 	
 	processAudio() {
-		
-		if (selectedVisual.name !== 'equalizer-daphne2') {
-			
-			this.checkSelectedVisual2 = setInterval((function(){
-				
-				if (selectedVisual.name === 'equalizer-daphne2') {
-					
-					clearInterval(this.checkSelectedVisual2);
-					
-					this.constructor();
-				}
-				
-			}).bind(this), 1000);
-			
-			return;
-		}
 		
 		let fps = 60;
 		setTimeout((function() {
