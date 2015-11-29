@@ -35,11 +35,13 @@ class EqualizerJeremy3Controller {
 		
 		console.log('EqualizerJeremy3Controller called');
 		
-		if (selectedVisual.name !== 'equalizer-jeremy3') {
+		this.visualName = 'equalizer-jeremy3';
+		
+		if (selectedVisual.name !== this.visualName) {
 			
 			this.checkSelectedVisual = setInterval((function(){
 				
-				if (selectedVisual.name === 'equalizer-jeremy3') {
+				if (selectedVisual.name === this.visualName) {
 					
 					clearInterval(this.checkSelectedVisual);
 					
@@ -49,11 +51,33 @@ class EqualizerJeremy3Controller {
 			}).bind(this), 1000);
 			
 			return;
+		
+		} else {
+			
+			this.checkSelectedVisual2 = setInterval((function(){
+				
+				if (selectedVisual.name !== this.visualName) {
+					
+					clearInterval(this.checkSelectedVisual2);
+					
+					this.checkSelectedVisual3 = setInterval((function(){
+					
+						if (selectedVisual.name === this.visualName) {
+							
+							clearInterval(this.checkSelectedVisual3);
+							
+							this.constructor();
+						}
+						
+					}).bind(this), 1000);
+				}
+				
+			}).bind(this), 1000);
 		}
 		
-		if (selectedVisual.name === 'equalizer-jeremy3') {
+		if (selectedVisual.name === this.visualName) {
 		
-			let fullscreenButton = angular.element('#equalizer-jeremy3-fullscreen-button')[0];
+			let fullscreenButton = angular.element('#'+this.visualName+'-fullscreen-button')[0];
 			
 			fullscreenButton.onclick = this.fullScreen.bind(this);
 			
@@ -144,7 +168,7 @@ class EqualizerJeremy3Controller {
 			
 			
 			
-			this.canvas = angular.element('#equalizer-jeremy3-canvas1')[0];
+			this.canvas = angular.element('#'+this.visualName+'-canvas1')[0];
 			this.canvasContext = this.canvas.getContext('2d');
 			this.canvasContext.fillStyle = 'rgba(0, 0, 0, 1.0)';
 			this.canvasContext.fillRect(0, 0, this.canvasWidth, this.canvasHeight);

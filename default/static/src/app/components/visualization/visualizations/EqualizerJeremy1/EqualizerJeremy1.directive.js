@@ -35,7 +35,7 @@ class EqualizerJeremy1Controller {
 		
 		console.log('EqualizerJeremy1Controller called');
 		
-		this.visualName = 'equalizer-jeremy1'
+		this.visualName = 'equalizer-jeremy1';
 		
 		if (selectedVisual.name !== this.visualName) {
 			
