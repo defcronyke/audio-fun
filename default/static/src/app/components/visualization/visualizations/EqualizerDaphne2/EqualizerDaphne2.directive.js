@@ -225,7 +225,7 @@ class EqualizerDaphne2Controller {
 		let lowest_freq = dataArray[0];
 		let highest_freq = dataArray[0];
 		
-		for (let i = 0; i < dataArray.length; i++) {
+		for (let i = 0; i < (dataArray.length/3); i++) {
 			let data = dataArray[i];
 			
 			if (data > highest_freq) {
@@ -238,27 +238,34 @@ class EqualizerDaphne2Controller {
 
 		let pen = turtle.penFor(this.canvas);
 		
-		let sides = 3 + Math.floor((highest_freq - lowest_freq)/15);
-		let dist = 102 - sides;
-//		console.log(sides);
-		let angle = Math.floor(365/sides);
-		let startX = this.canvasWidth/2;
+		let sides = 3 + Math.floor(((highest_freq - lowest_freq)/2)/8);
+		let dist = 70;
+		let angle = Math.floor(360/sides);
+		let r = Math.abs(dist/(2*Math.sin(180/sides)));
+		let startX = (this.canvasWidth/2) - r;
 		let startY = this.canvasHeight/2;
-		pen.moveTo(startX - dist, startY - dist);
+		pen.moveTo(startX, startY);
 		pen.penDown();
+		let positions = [];
 		for (let i = 0; i < sides; i++) {
+			let p = pen.position();
+			positions.push([p['x'], p['y']]);
 			pen.forward(dist);
 			pen.turnRight(angle);
 		}
-		if (sides > 10) {
-			angle = Math.floor(365/(sides - 7));
-			let dist = 102 - (sides - 7);
-			for (let i = 0; i < (sides - 7); i++) {
-				pen.forward(dist);
-				pen.turnRight(angle);
+		pen.penUp();
+		for (let i = 0; i < positions.length; i++) {
+			let current_x = positions[i][0];
+			let current_y = positions[i][1];
+			for (let j = 0; j < (positions.length - i); j++) {
+				let next_x = positions[i+j][0];
+				let next_y = positions[i+j][1];
+				pen.moveTo(current_x, current_y);
+				pen.penDown();
+				pen.moveTo(next_x, next_y)
+				pen.penUp;
 			}
-		}
-		
+		}		
 	}
 	
 	fullScreen() {

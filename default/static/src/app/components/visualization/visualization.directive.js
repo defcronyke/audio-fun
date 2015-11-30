@@ -44,7 +44,7 @@ class VisualizationController {
 			}
 		];
 		
-		this.selectedVisual = this.visuals[2];	// TODO: Use this to set the default visual.
+		this.selectedVisual = this.visuals[1];	// TODO: Use this to set the default visual.
 		selectedVisual = this.selectedVisual;
 	}
 	
