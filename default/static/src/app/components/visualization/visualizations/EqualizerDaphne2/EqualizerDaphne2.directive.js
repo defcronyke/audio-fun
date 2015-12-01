@@ -260,48 +260,107 @@ class EqualizerDaphne2Controller {
 
 		let pen = turtle.penFor(this.canvas);
 		
-		let bg_r = highest_freq2;
-		let bg_g = lowest_freq2;
-		let bg_b = highest_freq2 - lowest_freq2
-		
-//		console.log(bg_r);
-//		console.log(bg_g);
-		
-//		this.canvasContext.fillStyle = "rgba(" + bg_r + "," + bg_g + "," + bg_b + ", 1.0)";
 		this.canvasContext.fillStyle = "rgba(0,0,0,1.0)";
 		this.canvasContext.fillRect(0,0,this.canvasWidth, this.canvasHeight);
 		
 		pen.color("rgba(255,0,0,1.0)");
 		
 		let sides = 3 + Math.floor(((highest_freq1 - lowest_freq1)/2)/8);
-		let dist = 70;
+		let dist = 100;
 		let angle = 360/sides;
 		let rads = (180/sides) * (Math.PI / 180);
 		let r = dist/(2*Math.sin(rads));
 		let startX = (this.canvasWidth/2) - r;
-		let startY = this.canvasHeight/2;
+		let startY = (this.canvasHeight/2) + (dist/2);
 		pen.moveTo(startX, startY);
 		pen.penDown();
-		let positions = [];
+		let positions1 = [];
 		for (let i = 0; i < sides; i++) {
 			let p = pen.position();
-			positions.push([p['x'], p['y']]);
+			positions1.push([p['x'], p['y']]);
 			pen.forward(dist);
 			pen.turnRight(angle);
 		}
 		pen.penUp();
-		for (let i = 0; i < positions.length; i++) {
-			let current_x = positions[i][0];
-			let current_y = positions[i][1];
-			for (let j = 0; j < (positions.length - i); j++) {
-				let next_x = positions[i+j][0];
-				let next_y = positions[i+j][1];
+		for (let i = 0; i < positions1.length; i++) {
+			let current_x = positions1[i][0];
+			let current_y = positions1[i][1];
+			for (let j = 0; j < (positions1.length - i); j++) {
+				let next_x = positions1[i+j][0];
+				let next_y = positions1[i+j][1];
 				pen.moveTo(current_x, current_y);
 				pen.penDown();
 				pen.moveTo(next_x, next_y)
 				pen.penUp;
 			}
-		}		
+		}
+		
+		pen.penUp();
+		pen.color("rgba(0,255,0,0.5)");
+		
+		sides = 3 + Math.floor(((highest_freq2 - lowest_freq2)/2)/8);
+		dist = 100;
+		angle = 360/sides;
+		rads = (180/sides) * (Math.PI / 180);
+		r = dist/(2*Math.sin(rads));
+		startX = (this.canvasWidth/2) - r;
+		startY = (this.canvasHeight/2) + (dist/2);
+		pen.moveTo(startX, startY);
+		pen.penDown();
+		let positions2 = [];
+		for (let i = 0; i < sides; i++) {
+			let p = pen.position();
+			positions2.push([p['x'], p['y']]);
+			pen.forward(dist);
+			pen.turnRight(angle);
+		}
+		pen.penUp();
+		for (let i = 0; i < positions2.length; i++) {
+			let current_x = positions2[i][0];
+			let current_y = positions2[i][1];
+			for (let j = 0; j < (positions2.length - i); j++) {
+				let next_x = positions2[i+j][0];
+				let next_y = positions2[i+j][1];
+				pen.moveTo(current_x, current_y);
+				pen.penDown();
+				pen.moveTo(next_x, next_y)
+				pen.penUp;
+			}
+		}
+		
+		pen.penUp();
+		pen.color("rgba(0,0,255,0.5)");
+		
+		sides = 3 + Math.floor(((highest_freq3 - lowest_freq3)/2)/8);
+		dist = 100;
+		angle = 360/sides;
+		rads = (180/sides) * (Math.PI / 180);
+		r = dist/(2*Math.sin(rads));
+		startX = (this.canvasWidth/2) - r;
+		startY = (this.canvasHeight/2) + (dist/2);
+		pen.moveTo(startX, startY);
+		pen.penDown();
+		let positions3 = [];
+		for (let i = 0; i < sides; i++) {
+			let p = pen.position();
+			positions3.push([p['x'], p['y']]);
+			pen.forward(dist);
+			pen.turnRight(angle);
+		}
+		pen.penUp();
+		for (let i = 0; i < positions3.length; i++) {
+			let current_x = positions3[i][0];
+			let current_y = positions3[i][1];
+			for (let j = 0; j < (positions3.length - i); j++) {
+				let next_x = positions3[i+j][0];
+				let next_y = positions3[i+j][1];
+				pen.moveTo(current_x, current_y);
+				pen.penDown();
+				pen.moveTo(next_x, next_y)
+				pen.penUp;
+			}
+		}
+				
 	}
 	
 	fullScreen() {
