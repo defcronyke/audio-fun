@@ -174,7 +174,7 @@ class EqualizerJeremy3Controller {
 			this.canvasContext.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
 			
 			
-			//this.n = 0;
+			this.n = 0;
 			this.backgroundFillStyle = 'rgba(0, 0, 0, 1.0)';
 			this.processAudio();
 		}
@@ -228,21 +228,65 @@ class EqualizerJeremy3Controller {
 		this.canvasContext.fillStyle = this.backgroundFillStyle;
 		this.canvasContext.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
 
+		let pen = turtle.penFor(this.visualName+'-canvas1');
+		
+		pen.moveTo(this.canvasWidth/2, this.canvasHeight/2);
+//		pen.moveTo(this.canvasWidth/2, this.canvasHeight);
+		pen.penDown();
+
+		let dataFirst = dataArray[0];
+		let dataLast = dataArray[dataArray.length-1];
+
+
 		for (let i = 0; i < dataArray.length; i++) {
 			
 			let data = dataArray[i];
+			let dataMinus1 = (i == 0) ? data : dataArray[i-1];
+			let dataPlus1 = (i >= (dataArray.length-1)) ? data : dataArray[i+1];
+			
+			pen.color('rgba('+ data +', '+ dataFirst +', '+ dataLast +', '+ data/255 +')');
+			pen.width(data/64);
+			
+			
+			if ((this.n % 10) == 0) {
+				(function turtleSnowflake(l, d) {
+					
+					if (d == 0) {
+					
+						pen.forward(l);
+					
+					} else {
+						
+						turtleSnowflake(l/3, d-1);
+						pen.turnRight(60);
+						turtleSnowflake(l/3, d-1);
+						pen.turnLeft(120);
+						turtleSnowflake(l/3, d-1);
+						pen.turnRight(60);
+						turtleSnowflake(l/3, d-1);
+					}
+					
+				}).bind(this)(data, (dataFirst % 4) + 1);
+			}
+			
+			pen.turnRight(90);
+			
+			pen.forward(data);
+			
+			this.n = (this.n + 1) % 1000;
+			
 
-			let rand_r = Math.floor(Math.random() * 255);
-			let rand_g = Math.floor(Math.random() * 255);
-			let rand_b = Math.floor(Math.random() * 255);
+//			let rand_r = Math.floor(Math.random() * 255);
+//			let rand_g = Math.floor(Math.random() * 255);
+//			let rand_b = Math.floor(Math.random() * 255);
 			
-			let rand1 = Math.floor(Math.random() * 4);
-			let rand2 = Math.floor(Math.random() * 4);
+//			let rand1 = Math.floor(Math.random() * 4);
+//			let rand2 = Math.floor(Math.random() * 4);
 			
-			let rand_w = Math.floor(Math.random() * this.canvasWidth);
-			let rand_h = Math.floor(Math.random() * this.canvasHeight);
-			let rand_w2 = Math.floor(Math.random() * this.canvasWidth);
-			let rand_h2 = Math.floor(Math.random() * this.canvasHeight);
+//			let rand_w = Math.floor(Math.random() * this.canvasWidth);
+//			let rand_h = Math.floor(Math.random() * this.canvasHeight);
+//			let rand_w2 = Math.floor(Math.random() * this.canvasWidth);
+//			let rand_h2 = Math.floor(Math.random() * this.canvasHeight);
 
 //			this.canvasContext.fillStyle = 'rgba('+rand_r+', '+rand_b+', '+rand_b+', 1.0)';
 //			this.canvasContext.fillRect(i, data, 1, 15);
@@ -256,26 +300,26 @@ class EqualizerJeremy3Controller {
 			
 //			if (data <= 32) {
 				
-				let r = 20;
-				this.canvasContext.beginPath();
-				this.canvasContext.moveTo((rand_w * Math.PI * r) % this.canvasWidth, (rand_h * Math.PI * r) % this.canvasHeight);
-				//this.canvasContext.lineTo(500, 500);
-				this.canvasContext.lineTo(rand_w2, rand_h2);
-				this.canvasContext.strokeStyle = 'rgba('+ (rand_r + data) % 255 +', '+ (rand_b - data) % 255 +', '+ (rand_b + data) % 255 +', 1.0)';
-				this.canvasContext.stroke();
+//				let r = 20;
+//				this.canvasContext.beginPath();
+//				this.canvasContext.moveTo((rand_w * Math.PI * r) % this.canvasWidth, (rand_h * Math.PI * r) % this.canvasHeight);
+//				//this.canvasContext.lineTo(500, 500);
+//				this.canvasContext.lineTo(rand_w2, rand_h2);
+//				this.canvasContext.strokeStyle = 'rgba('+ (rand_r + data) % 255 +', '+ (rand_b - data) % 255 +', '+ (rand_b + data) % 255 +', 1.0)';
+//				this.canvasContext.stroke();
 //			}
 			
-			if (data <= 8) {
+//			if (data <= 8) {
 				
-				let rand_r = Math.floor(Math.random() * 255);
-				let rand_g = Math.floor(Math.random() * 255);
-				let rand_b = Math.floor(Math.random() * 255);
+//				let rand_r = Math.floor(Math.random() * 255);
+//				let rand_g = Math.floor(Math.random() * 255);
+//				let rand_b = Math.floor(Math.random() * 255);
 		
-				//this.canvasContext.fillStyle = 'rgba(0, 0, 0, 1.0)';
+//				//this.canvasContext.fillStyle = 'rgba(0, 0, 0, 1.0)';
 				
-				this.canvasContext.fillStyle = 'rgba('+dataArray[rand_r]+', '+dataArray[rand_g]+', '+dataArray[rand_b]+', 1.0)';
-				this.backgroundFillStyle = this.canvasContext.fillStyle;
-			}
+//				this.canvasContext.fillStyle = 'rgba('+dataArray[rand_r]+', '+dataArray[rand_g]+', '+dataArray[rand_b]+', 1.0)';
+//				this.backgroundFillStyle = this.canvasContext.fillStyle;
+//			}
 		}
 		
 		//this.n = (this.n + 1) % this.bufferLength;
