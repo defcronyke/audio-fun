@@ -233,6 +233,8 @@ class EqualizerDaphne2Controller {
 		
 		let third = Math.floor(dataArray.length/3);
 		
+		let opac = 1.0;
+		
 		for (let i = 0; i < dataArray.length; i++) {
 			let data = dataArray[i];
 			
@@ -263,7 +265,10 @@ class EqualizerDaphne2Controller {
 		this.canvasContext.fillStyle = "rgba(0,0,0,1.0)";
 		this.canvasContext.fillRect(0,0,this.canvasWidth, this.canvasHeight);
 		
-		pen.color("rgba(255,0,0,1.0)");
+		opac = (Math.abs(highest_freq3 - lowest_freq1)/255);
+		
+		pen.color("rgba("+ lowest_freq1 + ",255,0," + opac + ")");
+		pen.width((1.0 - opac) * 12);
 		
 		let sides = 3 + Math.floor(((highest_freq1 - lowest_freq1)/2)/8);
 		let dist = 100;
@@ -296,7 +301,10 @@ class EqualizerDaphne2Controller {
 		}
 		
 		pen.penUp();
-		pen.color("rgba(0,255,0,0.5)");
+		opac = (Math.abs(highest_freq1 - lowest_freq2)/255);
+		
+		pen.color("rgba(0,"+ lowest_freq2 +",255," + opac + ")");
+		pen.width((1.0 - opac) * 10);
 		
 		sides = 3 + Math.floor(((highest_freq2 - lowest_freq2)/2)/8);
 		dist = 100;
@@ -329,7 +337,10 @@ class EqualizerDaphne2Controller {
 		}
 		
 		pen.penUp();
-		pen.color("rgba(0,0,255,0.5)");
+		opac = (Math.abs(highest_freq2 - lowest_freq3)/255);
+		
+		pen.color("rgba(255,0,"+ lowest_freq3 +"," + opac + ")");
+		pen.width((1.0 - opac) * 8);
 		
 		sides = 3 + Math.floor(((highest_freq3 - lowest_freq3)/2)/8);
 		dist = 100;
