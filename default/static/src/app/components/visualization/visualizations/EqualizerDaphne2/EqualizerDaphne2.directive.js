@@ -275,7 +275,7 @@ class EqualizerDaphne2Controller {
 		
 		let sides = 3 + Math.floor(((highest_freq1 - lowest_freq1)/2)/8);
 		let dist = 70;
-		let angle = Math.floor(360/sides);
+		let angle = 360/sides;
 		let rads = (180/sides) * (Math.PI / 180);
 		let r = dist/(2*Math.sin(rads));
 		let startX = (this.canvasWidth/2) - r;
