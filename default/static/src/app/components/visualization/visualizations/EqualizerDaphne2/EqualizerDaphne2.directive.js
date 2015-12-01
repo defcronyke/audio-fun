@@ -222,26 +222,62 @@ class EqualizerDaphne2Controller {
 	draw(dataArray) {
 		this.canvasContext.clearRect(0,0,this.canvasWidth,this.canvasHeight);
 		
-		let lowest_freq = dataArray[0];
-		let highest_freq = dataArray[0];
+		let lowest_freq1 = dataArray[0];
+		let highest_freq1 = dataArray[0];
 		
-		for (let i = 0; i < (dataArray.length/3); i++) {
+		let lowest_freq2 = dataArray[0];
+		let highest_freq2 = dataArray[0];
+		
+		let lowest_freq3 = dataArray[0];
+		let highest_freq3 = dataArray[0];
+		
+		let third = Math.floor(dataArray.length/3);
+		
+		for (let i = 0; i < dataArray.length; i++) {
 			let data = dataArray[i];
 			
-			if (data > highest_freq) {
-				highest_freq = data;
-			} else if (data < lowest_freq) {
-				lowest_freq = data;
+			if (i < third) {
+				if (data > highest_freq1) {
+					highest_freq1 = data;
+				} else if (data < lowest_freq1) {
+					lowest_freq1 = data;
+				}
+			} else if ((i > third) && (i < (third *2))) {
+				if (data > highest_freq2) {
+					highest_freq2 = data;
+				} else if (data < lowest_freq2) {
+					lowest_freq2 = data;
+				}
+			} else if (i > (third*2)) {
+				if (data > highest_freq3) {
+					highest_freq3 = data;
+				} else if (data < lowest_freq3) {
+					lowest_freq3 = data;
+				}
 			}
 		}
 
 
 		let pen = turtle.penFor(this.canvas);
 		
-		let sides = 3 + Math.floor(((highest_freq - lowest_freq)/2)/8);
+		let bg_r = highest_freq2;
+		let bg_g = lowest_freq2;
+		let bg_b = highest_freq2 - lowest_freq2
+		
+//		console.log(bg_r);
+//		console.log(bg_g);
+		
+//		this.canvasContext.fillStyle = "rgba(" + bg_r + "," + bg_g + "," + bg_b + ", 1.0)";
+		this.canvasContext.fillStyle = "rgba(0,0,0,1.0)";
+		this.canvasContext.fillRect(0,0,this.canvasWidth, this.canvasHeight);
+		
+		pen.color("rgba(255,0,0,1.0)");
+		
+		let sides = 3 + Math.floor(((highest_freq1 - lowest_freq1)/2)/8);
 		let dist = 70;
 		let angle = Math.floor(360/sides);
-		let r = Math.abs(dist/(2*Math.sin(180/sides)));
+		let rads = (180/sides) * (Math.PI / 180);
+		let r = dist/(2*Math.sin(rads));
 		let startX = (this.canvasWidth/2) - r;
 		let startY = this.canvasHeight/2;
 		pen.moveTo(startX, startY);
